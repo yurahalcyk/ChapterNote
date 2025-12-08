@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
+    "outDir": "./dist",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "target": "es2022",
+    "lib": ["ES2022"],
+    "types": ["node"],
+    // changed rootDir from ./src to ./ so ts wont complain that generated files are outside of src
+    "rootDir": "./"
+  },
+  "include": ["src/**/*", "prisma-output/**/*", "singleton.ts"]
+}
