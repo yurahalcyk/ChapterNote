@@ -4,6 +4,7 @@ import { LoginForm } from '../features/auth/login/components/login-form';
 import { Register } from '../features/auth/registration/components/register-form';
 import { Dashboard } from '../features/dashboard/screens/dashboard';
 import { NavigationListener } from '../middleware/utils/redirection-util/navigation-listener';
+import { ProtectedRoute } from './protected-routes';
 
 export const AppRoutes = () => {
   return (
@@ -15,7 +16,9 @@ export const AppRoutes = () => {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<Register />} />
         </Route>
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

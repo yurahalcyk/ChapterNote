@@ -20,7 +20,7 @@ const toasts = {
       });
     },
     failedRegister: (errorMsg: string) => {
-      toast(`Registration failed: ${errorMsg}`, {
+      toast(`${errorMsg}`, {
         type: 'error',
       });
     },

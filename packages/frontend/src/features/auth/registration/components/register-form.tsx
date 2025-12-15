@@ -1,30 +1,17 @@
 import { Button, Card, Form } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router';
-import { isErrorWithMessage } from '../../error-type-guard';
+import { Link } from 'react-router';
 import { useRegisterUserMutation } from '../../api-service/auth';
 import { useState } from 'react';
-import toasts from '../../../../toasts/toasts';
 
 export const Register = () => {
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const navigate = useNavigate();
 
   const [registerUser, { isLoading }] = useRegisterUserMutation();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      await registerUser({ username, email, password }).unwrap();
-      navigate('/login');
-      toasts.register.successfulRegister();
-    } catch (e) {
-      if (isErrorWithMessage(e)) {
-        toasts.register.failedRegister(e.data.error);
-      } else {
-        toasts.register.failedRegister('Unexpected error');
-      }
-    }
+    await registerUser({ username, email, password });
   };
 
   return (
