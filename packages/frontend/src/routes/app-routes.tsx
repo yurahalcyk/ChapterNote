@@ -3,10 +3,12 @@ import { AuthLayout } from '../features/auth/auth-layout';
 import { LoginForm } from '../features/auth/login/components/login-form';
 import { Register } from '../features/auth/registration/components/register-form';
 import { Dashboard } from '../features/dashboard/screens/dashboard';
+import { NavigationListener } from '../middleware/utils/redirection-util/navigation-listener';
 
 export const AppRoutes = () => {
   return (
     <BrowserRouter>
+      <NavigationListener />
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route element={<AuthLayout />}>

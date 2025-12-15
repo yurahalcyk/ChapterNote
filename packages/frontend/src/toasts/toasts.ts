@@ -8,7 +8,7 @@ const toasts = {
       });
     },
     failedLogin: (errorMsg: string) => {
-      toast(`Login failed: ${errorMsg}`, {
+      toast(`${errorMsg}`, {
         type: 'error',
       });
     },

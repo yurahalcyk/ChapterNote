@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router';
 import { isErrorWithMessage } from '../../error-type-guard';
 import { useRegisterUserMutation } from '../../api-service/auth';
 import { useState } from 'react';
-import toasts from '../../../toasts/auth-toasts';
+import toasts from '../../../../toasts/toasts';
 
 export const Register = () => {
   const [username, setUsername] = useState<string>('');
