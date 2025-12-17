@@ -28,6 +28,7 @@ export const LoginForm = () => {
               onChange={e => {
                 setUsername(e.target.value);
               }}
+              data-testid="username-input"
             />
           </Form.Group>
           <Form.Group className="mt-2">
@@ -40,9 +41,15 @@ export const LoginForm = () => {
               onChange={e => {
                 setPassword(e.target.value);
               }}
+              data-testid="password-input"
             />
           </Form.Group>
-          <Button className="mt-4" disabled={isLoading} type="submit">
+          <Button
+            className="mt-4"
+            disabled={isLoading}
+            type="submit"
+            data-testid="login-btn"
+          >
             {isLoading ? 'Logging in...' : 'LOGIN'}
           </Button>
         </Form>

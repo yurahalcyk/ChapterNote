@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { useRegisterUserMutation } from '../../api-service/auth';
 import { useState } from 'react';
 
-export const Register = () => {
+export const RegisterForm = () => {
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -28,6 +28,7 @@ export const Register = () => {
             onChange={e => {
               setUsername(e.target.value);
             }}
+            data-testid="username-input"
           />
         </Form.Group>
         <Form.Group className="mt-2">
@@ -40,6 +41,7 @@ export const Register = () => {
             onChange={e => {
               setEmail(e.target.value);
             }}
+            data-testid="email-input"
           />
         </Form.Group>
         <Form.Group className="mt-2">
@@ -52,9 +54,15 @@ export const Register = () => {
             onChange={e => {
               setPassword(e.target.value);
             }}
+            data-testid="password-input"
           />
         </Form.Group>
-        <Button type="submit" className="mt-4" disabled={isLoading}>
+        <Button
+          type="submit"
+          className="mt-4"
+          disabled={isLoading}
+          data-testid="register-btn"
+        >
           REGISTER
         </Button>
       </Form>

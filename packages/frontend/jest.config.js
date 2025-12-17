@@ -1,15 +1,28 @@
 /** @type {import('jest').Config} */
 
 const config = {
-  testEnvironment: 'node',
-  testMatch: ['<rootDir>/src/tests/*/*.test.ts'],
+  testEnvironment: 'jest-fixed-jsdom',
+  testMatch: ['<rootDir>/src/tests/*/*.test.tsx'],
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.jsx?$': '$1',
   },
   transform: {
-    '^.+\\.(t|j)sx?$': '@swc/jest',
+    '^.+\\.(t|j)sx?$': [
+      '@swc/jest',
+      {
+        jsc: {
+          transform: {
+            react: {
+              runtime: 'automatic',
+            },
+          },
+        },
+      },
+    ],
   },
+  setupFilesAfterEnv: ['<rootDir>/src/tests/setupTests.ts'],
+  transformIgnorePatterns: ['/node_modules/(?!(msw|until-async)/)'],
 };
 
 export default config;
