@@ -1,0 +1,20 @@
+.navBar {
+  :global(.navbar-brand) {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-right: 2rem;
+  }
+
+  :global(.nav-link) {
+    font-size: 1.5rem;
+    color: white;
+
+    &:hover {
+      color: #99ccff;
+    }
+  }
+
+  :global(.nav-link.active) {
+    color: #66b2ff;
+  }
+}
