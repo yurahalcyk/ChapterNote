@@ -25,6 +25,10 @@ const toasts = {
       });
     },
   },
+  logout: {
+    logout: () =>
+      toast('Logged out. Hope to see you again soon!', { type: 'info' }),
+  },
 };
 
 export default toasts;

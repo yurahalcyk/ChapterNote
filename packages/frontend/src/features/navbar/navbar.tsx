@@ -1,8 +1,16 @@
 import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import { NavLink, Outlet } from 'react-router';
 import styles from './navbar.module.scss';
+import { useAppDispatch } from '../../app/hooks';
+import { removeTokenFromLocalStorage } from '../auth/login/slices/login-slice';
 
 export const NavigationBar = () => {
+  const dispatch = useAppDispatch();
+
+  const handleOnClick = () => {
+    dispatch(removeTokenFromLocalStorage());
+  };
+
   return (
     <>
       <Navbar
@@ -27,7 +35,9 @@ export const NavigationBar = () => {
               </Nav.Link>
             </Nav>
             <Nav>
-              <Button variant="outline-light">Logout</Button>
+              <Button variant="outline-light" onClick={handleOnClick}>
+                Logout
+              </Button>
             </Nav>
           </Navbar.Collapse>
         </Container>

@@ -3,7 +3,10 @@ import { authApi } from '../features/auth/api-service/auth';
 import toasts from '../toasts/toasts';
 import { navigateTo } from './utils/redirection-util/navigation-slice';
 import { extractApiError } from './utils/api-response-util';
-import { addTokenToLocalStorage } from '../features/auth/login/slices/login-slice';
+import {
+  addTokenToLocalStorage,
+  loginSlice,
+} from '../features/auth/login/slices/login-slice';
 
 export const toastAndRedirectListeners = createListenerMiddleware();
 
@@ -43,5 +46,13 @@ toastAndRedirectListeners.startListening({
   effect: async action => {
     const error = action.payload;
     toasts.register.failedRegister(extractApiError(error));
+  },
+});
+
+// logout
+toastAndRedirectListeners.startListening({
+  actionCreator: loginSlice.actions.removeTokenFromLocalStorage,
+  effect: () => {
+    toasts.logout.logout();
   },
 });

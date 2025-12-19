@@ -8,7 +8,7 @@ const initialState = {
   token: localStorage.getItem('token') || null,
 } satisfies LoginState as LoginState;
 
-const loginSlice = createSlice({
+export const loginSlice = createSlice({
   name: 'login',
   initialState,
   reducers: {
@@ -16,8 +16,12 @@ const loginSlice = createSlice({
       state.token = action.payload;
       localStorage.setItem('token', state.token);
     },
+    removeTokenFromLocalStorage(state) {
+      state.token = null;
+    },
   },
 });
 
-export const { addTokenToLocalStorage } = loginSlice.actions;
+export const { addTokenToLocalStorage, removeTokenFromLocalStorage } =
+  loginSlice.actions;
 export const loginReducer = loginSlice.reducer;
