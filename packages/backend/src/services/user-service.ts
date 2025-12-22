@@ -1,16 +1,13 @@
 import { prisma } from '../lib/prisma.ts';
-import {
-  userLoginDataObject,
-  UserRegistrationDataObject,
-} from '../types/user-types.ts';
+import { userLoginDTO, UserRegistrationDTO } from '../dto/user-dto.ts';
 import utils from '../utils/user-utils.ts';
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../config/env.ts';
 
 const userService = {
   registerUser: async (
-    registrationDetails: UserRegistrationDataObject,
-  ): Promise<UserRegistrationDataObject> => {
+    registrationDetails: UserRegistrationDTO,
+  ): Promise<UserRegistrationDTO> => {
     const existingUserName = await prisma.user.findUnique({
       where: { username: registrationDetails.username },
     });
@@ -37,7 +34,7 @@ const userService = {
     });
   },
 
-  loginUser: async (loginDetails: userLoginDataObject): Promise<string> => {
+  loginUser: async (loginDetails: userLoginDTO): Promise<string> => {
     const existingUser = await prisma.user.findUnique({
       where: { username: loginDetails.username },
     });
@@ -53,13 +50,9 @@ const userService = {
       throw new Error('Incorrect password');
     }
 
-    const token = jwt.sign(
-      { userId: existingUser.id, username: existingUser.username },
-      JWT_SECRET,
-      {
-        expiresIn: '2d',
-      },
-    );
+    const token = jwt.sign({ userId: existingUser.id }, JWT_SECRET, {
+      expiresIn: '2d',
+    });
 
     return token;
   },

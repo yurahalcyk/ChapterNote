@@ -1,10 +1,10 @@
-export type UserRegistrationDataObject = {
+export type UserRegistrationDTO = {
   username: string;
   email: string;
   password: string;
 };
 
-export type userLoginDataObject = {
+export type userLoginDTO = {
   username: string;
   password: string;
 };

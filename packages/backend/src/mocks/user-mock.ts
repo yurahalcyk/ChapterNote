@@ -1,7 +1,4 @@
-import {
-  userLoginDataObject,
-  UserRegistrationDataObject,
-} from '../types/user-types.ts';
+import { userLoginDTO, UserRegistrationDTO } from '../dto/user-dto.ts';
 
 interface RegisteredUser {
   id: number;
@@ -17,13 +14,13 @@ export const validCreatedUser: RegisteredUser = {
   password: 'testpw123',
 };
 
-export const RegistrationRequest: UserRegistrationDataObject = {
+export const RegistrationRequest: UserRegistrationDTO = {
   username: 'test123',
   email: 'testemail@mail.com',
   password: 'testpw123',
 };
 
-export const loginRequest: userLoginDataObject = {
+export const loginRequest: userLoginDTO = {
   username: 'test1',
   password: 'pw123',
 };
