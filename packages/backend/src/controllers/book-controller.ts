@@ -17,3 +17,17 @@ export const createBookController = asyncHandler(
     });
   },
 );
+
+export const getBookController = asyncHandler(
+  async (req: Request, res: Response) => {
+    const userId = req.user!.id;
+    const books = await bookService.getBooks(userId);
+    const message =
+      books.length > 0 ? 'Books successfully fetched' : 'No books found';
+    return res.status(StatusCode.SuccessOK).json({
+      message,
+      count: books.length,
+      books,
+    });
+  },
+);

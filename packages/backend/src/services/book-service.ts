@@ -1,10 +1,12 @@
 import { BookDetails } from '../dto/book-dto.ts';
-import { BookCreationError, ValidationError } from '../errors/custom-errors.ts';
+import { ValidationError } from '../errors/custom-errors.ts';
 import { prisma } from '../lib/prisma.ts';
+
+// dont need try catch - lets unexpected errors bubble up and they'll be caught by asyncHandler + global err handler
 
 const bookService = {
   createBook: async (book: BookDetails, userId: number) => {
-    // handle input validation & errors
+    // handle input validation (client side errors) -> 400 err response
     if (!book.title.trim()) {
       throw new ValidationError('Book title is required');
     }
@@ -18,24 +20,25 @@ const bookService = {
     }
 
     // add to db
-    try {
-      const createdBook = await prisma.book.create({
-        data: {
-          title: book.title.trim(),
-          author: book.author.trim(),
-          chapters: book.chapters,
-          pages: book.pages ?? null,
-          userId,
-        },
-      });
-
-      return createdBook;
-    } catch (err) {
-      console.error('unexpected err: ' + err);
-      throw new BookCreationError('Failed to create book');
-    }
+    return await prisma.book.create({
+      data: {
+        title: book.title.trim(),
+        author: book.author.trim(),
+        chapters: book.chapters,
+        pages: book.pages ?? null,
+        userId,
+      },
+    });
   },
-  getBook: async () => {},
+
+  getBooks: async (userId: number) => {
+    const books = await prisma.book.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+    });
+    return books;
+  },
+
   deleteBook: async () => {},
   updateBook: async () => {},
 };

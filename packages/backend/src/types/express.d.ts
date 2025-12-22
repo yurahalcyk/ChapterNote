@@ -1,5 +1,6 @@
 import { User } from '../../prisma-output/generated/prisma/client.ts';
 
+// this is called type/module augmentation -> telling TS every request object may have an optional user property
 // necessary because TypeScript and Express don't know about the custom property req.user that I want to add to the request object
 
 declare global {

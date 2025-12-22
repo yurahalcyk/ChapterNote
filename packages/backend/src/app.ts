@@ -3,7 +3,7 @@ import cors from 'cors';
 import userRouter from './routes/user-routes.ts';
 import bookRouter from './routes/book-routes.ts';
 import { StatusCode } from 'status-code-enum';
-import { BookCreationError, ValidationError } from './errors/custom-errors.ts';
+import { ValidationError } from './errors/custom-errors.ts';
 
 const app = express();
 
@@ -26,17 +26,10 @@ app.use(
     res: express.Response,
     next: express.NextFunction,
   ) => {
-    console.error('global err handler -> err: ' + err);
+    console.error('Global err handler -> err: ' + err);
 
     // validation errors
     if (err instanceof ValidationError) {
-      return res
-        .status(StatusCode.ClientErrorBadRequest)
-        .json({ error: err.message, name: err.name });
-    }
-
-    // book creation errors
-    if (err instanceof BookCreationError) {
       return res
         .status(StatusCode.ClientErrorBadRequest)
         .json({ error: err.message, name: err.name });
