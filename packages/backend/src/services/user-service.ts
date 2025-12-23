@@ -3,54 +3,85 @@ import { userLoginDTO, UserRegistrationDTO } from '../dto/user-dto.ts';
 import utils from '../utils/user-utils.ts';
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../config/env.ts';
+import { ValidationError } from '../errors/custom-errors.ts';
 
 const userService = {
-  registerUser: async (
-    registrationDetails: UserRegistrationDTO,
-  ): Promise<UserRegistrationDTO> => {
-    const existingUserName = await prisma.user.findUnique({
-      where: { username: registrationDetails.username },
-    });
-    if (existingUserName) {
-      throw new Error('Username already in use');
+  /**
+   * Register a new user
+   * @param registrationDetails user submitted registration details
+   * @throws ValidationError on duplicate username/email or invalid data
+   */
+  registerUser: async (registrationDetails: UserRegistrationDTO) => {
+    const { username, email, password } = registrationDetails;
+
+    // input validation
+    if (!username.trim() || !email.trim() || !password) {
+      throw new ValidationError('All fields are required');
     }
 
-    const existingEmail = await prisma.user.findUnique({
-      where: { email: registrationDetails.email },
+    // checks
+    const existingUser = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { username: username.trim() },
+          { email: email.trim().toLowerCase() },
+        ],
+      },
     });
-    if (existingEmail) {
-      throw new Error('Email already in use');
+
+    if (existingUser) {
+      if (existingUser.username === username.trim()) {
+        throw new ValidationError('Username already in use');
+      }
+      if (existingUser.email === email.trim().toLowerCase()) {
+        throw new ValidationError('Email already in use');
+      }
     }
 
     const hashedPassword = await utils.hashPassword(
       registrationDetails.password,
     );
 
-    return await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
-        ...registrationDetails,
+        username: username.trim(),
+        email: email.trim().toLowerCase(),
         password: hashedPassword,
       },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+      },
     });
+
+    return user;
   },
 
-  loginUser: async (loginDetails: userLoginDTO): Promise<string> => {
-    const existingUser = await prisma.user.findUnique({
-      where: { username: loginDetails.username },
+  /**
+   * Login user
+   * @param loginDetails user inputted login details
+   * @throws ValidationError on invalid credentials
+   * @returns JWT
+   */
+  loginUser: async (loginDetails: userLoginDTO) => {
+    const { username, password } = loginDetails;
+
+    const user = await prisma.user.findUnique({
+      where: { username: username.trim() },
+      select: { id: true, password: true },
     });
-    if (!existingUser) {
-      throw new Error(`Username: ${loginDetails.username} not found`);
+
+    if (!user) {
+      throw new ValidationError(`Invalid username or password`);
     }
 
-    const isMatch = await utils.verifyPassword(
-      loginDetails.password,
-      existingUser.password,
-    );
+    const isMatch = await utils.verifyPassword(password, user.password);
     if (!isMatch) {
-      throw new Error('Incorrect password');
+      throw new ValidationError('Invalid username or password');
     }
 
-    const token = jwt.sign({ userId: existingUser.id }, JWT_SECRET, {
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET, {
       expiresIn: '2d',
     });
 

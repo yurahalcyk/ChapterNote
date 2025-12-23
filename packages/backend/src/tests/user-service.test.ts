@@ -12,25 +12,26 @@ describe('User Service', () => {
 
   describe('Register User', () => {
     it('throws an error if username already exists', async () => {
-      prismaMock.user.findUnique.mockResolvedValueOnce(validCreatedUser);
+      prismaMock.user.findFirst.mockResolvedValue(validCreatedUser);
 
       await expect(
         userService.registerUser(RegistrationRequest),
       ).rejects.toThrow('Username already in use');
 
-      expect(prismaMock.user.findUnique).toHaveBeenCalledTimes(1);
+      expect(prismaMock.user.findFirst).toHaveBeenCalledTimes(1);
     });
 
     it('throws an error if email already exists', async () => {
-      prismaMock.user.findUnique
-        .mockResolvedValueOnce(null)
-        .mockResolvedValueOnce(validCreatedUser);
+      prismaMock.user.findFirst.mockResolvedValue(validCreatedUser);
 
       await expect(
-        userService.registerUser(RegistrationRequest),
+        userService.registerUser({
+          ...RegistrationRequest,
+          username: 'diffUsername',
+        }),
       ).rejects.toThrow('Email already in use');
 
-      expect(prismaMock.user.findUnique).toHaveBeenCalledTimes(2);
+      expect(prismaMock.user.findFirst).toHaveBeenCalledTimes(1);
     });
 
     it('creates a user successfully', async () => {
@@ -38,9 +39,7 @@ describe('User Service', () => {
         .spyOn(utils, 'hashPassword')
         .mockResolvedValue('hashed-pw');
 
-      prismaMock.user.findUnique
-        .mockResolvedValueOnce(null)
-        .mockResolvedValueOnce(null);
+      prismaMock.user.findFirst.mockResolvedValue(null);
 
       prismaMock.user.create.mockResolvedValue({
         ...validCreatedUser,
@@ -63,7 +62,7 @@ describe('User Service', () => {
   describe('Login User', () => {
     it('throws an error if no username exists', async () => {
       await expect(userService.loginUser(RegistrationRequest)).rejects.toThrow(
-        `Username: ${RegistrationRequest.username} not found`,
+        'Invalid username or password',
       );
 
       expect(prismaMock.user.findUnique).toHaveBeenCalledTimes(1);
@@ -77,7 +76,7 @@ describe('User Service', () => {
 
       await expect(
         userService.loginUser({ ...RegistrationRequest, password: 'wrong pw' }),
-      ).rejects.toThrow('Incorrect password');
+      ).rejects.toThrow('Invalid username or password');
 
       expect(verifyPasswordSpy).toHaveBeenCalledWith(
         'wrong pw',
