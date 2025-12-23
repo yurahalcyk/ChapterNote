@@ -7,6 +7,7 @@ import {
   validCreatedUser,
 } from '../mocks/user-mock.ts';
 import userService from '../services/user-service.ts';
+import { ValidationError } from '../errors/custom-errors.ts';
 
 const REGISTER_USER_API_PATH = '/api/users/register';
 const LOGIN_USER_API_PATH = '/api/users/login';
@@ -35,27 +36,33 @@ describe('User Controller', () => {
     it('returns 400 when username is taken', async () => {
       jest
         .spyOn(userService, 'registerUser')
-        .mockRejectedValue(new Error('Username already in use'));
+        .mockRejectedValue(new ValidationError('Username already in use'));
 
       const res = await request(app)
         .post(`${REGISTER_USER_API_PATH}`)
         .send(RegistrationRequest);
 
       expect(res.status).toBe(400);
-      expect(res.body).toEqual({ error: 'Username already in use' });
+      expect(res.body).toEqual({
+        error: 'Username already in use',
+        name: 'ValidationError',
+      });
     });
 
     it('returns 400 when email is taken', async () => {
       jest
         .spyOn(userService, 'registerUser')
-        .mockRejectedValue(new Error('Email already in use'));
+        .mockRejectedValue(new ValidationError('Email already in use'));
 
       const res = await request(app)
         .post(`${REGISTER_USER_API_PATH}`)
         .send(RegistrationRequest);
 
       expect(res.status).toBe(400);
-      expect(res.body).toEqual({ error: 'Email already in use' });
+      expect(res.body).toEqual({
+        error: 'Email already in use',
+        name: 'ValidationError',
+      });
     });
 
     it('returns 500 when unexpected error occurs', async () => {
@@ -68,7 +75,7 @@ describe('User Controller', () => {
         .send(RegistrationRequest);
 
       expect(res.status).toBe(500);
-      expect(res.body).toEqual({ error: 'Something went wrong' });
+      expect(res.body).toEqual({ error: 'Something went wrong!' });
     });
   });
 
@@ -87,12 +94,10 @@ describe('User Controller', () => {
       });
     });
 
-    it('returns 400 if username not registered', async () => {
+    it('returns 400 if username not registered / incorrect password entered', async () => {
       jest
         .spyOn(userService, 'loginUser')
-        .mockRejectedValue(
-          new Error(`Username: ${loginRequest.username} not found`),
-        );
+        .mockRejectedValue(new ValidationError('Invalid username or password'));
 
       const res = await request(app)
         .post(`${LOGIN_USER_API_PATH}`)
@@ -100,22 +105,8 @@ describe('User Controller', () => {
 
       expect(res.status).toBe(400);
       expect(res.body).toEqual({
-        error: `Username: ${loginRequest.username} not found`,
-      });
-    });
-
-    it('returns 400 if incorrect password entered', async () => {
-      jest
-        .spyOn(userService, 'loginUser')
-        .mockRejectedValue(new Error(`Incorrect password`));
-
-      const res = await request(app)
-        .post(`${LOGIN_USER_API_PATH}`)
-        .send(loginRequest);
-
-      expect(res.status).toBe(400);
-      expect(res.body).toEqual({
-        error: `Incorrect password`,
+        error: 'Invalid username or password',
+        name: 'ValidationError',
       });
     });
 
@@ -130,7 +121,7 @@ describe('User Controller', () => {
 
       expect(res.status).toBe(500);
       expect(res.body).toEqual({
-        error: `Something went wrong`,
+        error: `Something went wrong!`,
       });
     });
   });
