@@ -26,7 +26,7 @@ app.use(
     res: express.Response,
     next: express.NextFunction,
   ) => {
-    console.error('Global err handler -> err: ' + err);
+    // console.error('Global err handler -> err: ' + err);
 
     // validation errors
     if (err instanceof ValidationError) {

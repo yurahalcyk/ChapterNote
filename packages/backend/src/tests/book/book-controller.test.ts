@@ -41,7 +41,6 @@ describe('Book Controller', () => {
         .set('Authorization', 'Bearer fake-valid-token')
         .send({ ...bookDetailsRequest, title: '' });
 
-      console.log(res.body);
       expect(res.status).toBe(400);
       expect(res.body).toEqual({
         error: 'Book title is required',
@@ -59,7 +58,6 @@ describe('Book Controller', () => {
         .set('Authorization', 'Bearer fake-valid-token')
         .send({ ...bookDetailsRequest, author: '' });
 
-      console.log(res.body);
       expect(res.status).toBe(400);
       expect(res.body).toEqual({
         error: 'Book author is required',
