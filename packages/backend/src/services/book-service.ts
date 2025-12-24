@@ -15,8 +15,10 @@ const bookService = {
       throw new ValidationError('Book author is required');
     }
 
-    if (!book.chapters) {
-      throw new ValidationError('Book chapters is required');
+    if (!book.chapters || typeof book.chapters !== 'number') {
+      throw new ValidationError(
+        'Book chapters is required or has to be a number',
+      );
     }
 
     // add to db
@@ -39,7 +41,13 @@ const bookService = {
     return books;
   },
 
-  deleteBook: async () => {},
+  deleteBook: async (bookId: string) => {
+    await prisma.book.delete({
+      where: {
+        id: bookId,
+      },
+    });
+  },
   updateBook: async () => {},
 };
 

@@ -18,7 +18,7 @@ export const createBookController = asyncHandler(
   },
 );
 
-export const getBookController = asyncHandler(
+export const getAllBooksController = asyncHandler(
   async (req: Request, res: Response) => {
     const userId = req.user!.id;
     const books = await bookService.getBooks(userId);
@@ -29,5 +29,11 @@ export const getBookController = asyncHandler(
       count: books.length,
       books,
     });
+  },
+);
+
+export const deleteBookController = asyncHandler(
+  async (req: Request, res: Response) => {
+    // will get book id from req.params
   },
 );

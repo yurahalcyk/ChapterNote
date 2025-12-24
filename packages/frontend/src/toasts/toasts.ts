@@ -26,8 +26,7 @@ const toasts = {
     },
   },
   logout: {
-    logout: () =>
-      toast('Logged out. Hope to see you again soon!', { type: 'info' }),
+    logout: () => toast('Hope to see you again soon!', { type: 'info' }),
   },
 };
 
