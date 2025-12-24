@@ -25,3 +25,17 @@ export const collectionOfBooks = [
   { ...validBook },
   { ...validBook, id: '002' },
 ];
+
+export const successfulCreateBookResponse = {
+  message: 'Book created successfully',
+  book: {
+    id: '001',
+    title: 'test-book',
+    author: 'test-author',
+    chapters: 10,
+    pages: 100,
+    userId: 1,
+    createdAt: '2025-12-23T18:00:00.000Z',
+    updatedAt: '2025-12-23T18:00:00.000Z',
+  },
+};

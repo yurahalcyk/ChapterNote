@@ -5,7 +5,7 @@ import {
   loginRequest,
   RegistrationRequest,
   validCreatedUser,
-} from '../../mocks/user-mock.ts';
+} from '../mocks/user-mock.ts';
 import userService from '../../services/user-service.ts';
 import { ValidationError } from '../../errors/custom-errors.ts';
 

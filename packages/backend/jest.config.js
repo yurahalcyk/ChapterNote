@@ -2,7 +2,7 @@
 
 const config = {
   testEnvironment: 'node',
-  testMatch: ['<rootDir>/src/tests/*.test.ts'],
+  testMatch: ['<rootDir>/src/tests/*/*.test.ts'],
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.jsx?$': '$1',

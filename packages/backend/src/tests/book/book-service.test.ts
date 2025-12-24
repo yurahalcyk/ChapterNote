@@ -4,7 +4,7 @@ import {
   bookDetailsRequest,
   collectionOfBooks,
   validBook,
-} from '../../mocks/book-mock.ts';
+} from '../mocks/book-mock.ts';
 import bookService from '../../services/book-service.ts';
 
 describe('Book Service', () => {

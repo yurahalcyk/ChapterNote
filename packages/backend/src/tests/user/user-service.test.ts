@@ -1,9 +1,6 @@
 import { describe, it, expect, jest, beforeEach } from '@jest/globals';
 import { prismaMock } from '../../../singleton.ts';
-import {
-  RegistrationRequest,
-  validCreatedUser,
-} from '../../mocks/user-mock.ts';
+import { RegistrationRequest, validCreatedUser } from '../mocks/user-mock.ts';
 import utils from '../../utils/user-utils.ts';
 import userService from '../../services/user-service.ts';
 import jwt from 'jsonwebtoken';
