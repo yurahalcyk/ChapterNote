@@ -33,7 +33,7 @@ export const getAllBooksController = asyncHandler(
 );
 
 export const deleteBookController = asyncHandler(
-  async (req: Request, res: Response) => {
+  async (_req: Request, _res: Response) => {
     // will get book id from req.params
   },
 );

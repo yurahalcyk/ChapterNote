@@ -22,9 +22,9 @@ app.use('/api/books', bookRouter);
 app.use(
   (
     err: any,
-    req: express.Request,
+    _req: express.Request,
     res: express.Response,
-    next: express.NextFunction,
+    _next: express.NextFunction,
   ) => {
     // console.error('Global err handler -> err: ' + err);
 

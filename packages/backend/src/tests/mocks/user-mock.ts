@@ -1,4 +1,4 @@
-import { userLoginDTO, UserRegistrationDTO } from '../dto/user-dto.ts';
+import { userLoginDTO, UserRegistrationDTO } from '../../dto/user-dto.ts';
 
 interface RegisteredUser {
   id: number;

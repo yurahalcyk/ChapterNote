@@ -34,7 +34,7 @@ toastAndRedirectListeners.startListening({
 // register successful
 toastAndRedirectListeners.startListening({
   matcher: authApi.endpoints.registerUser.matchFulfilled,
-  effect: async (action, listenerApi) => {
+  effect: async (_action, listenerApi) => {
     toasts.register.successfulRegister();
     listenerApi.dispatch(navigateTo('/login'));
   },
