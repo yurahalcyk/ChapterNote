@@ -12,6 +12,8 @@
     "dev:backend": "npm run dev --workspace=@chapternote/backend",
     "test:backend": "npm run test --workspace=@chapternote/backend",
     "test:frontend": "npm run test --workspace=@chapternote/frontend",
+    "build:frontend": "npm run build --workspace=@chapternote/frontend",
+    "build:backend": "npm run build --workspace=@chapternote/backend",
     "build": "tsc -b",
     "clean": "tsc -b --clean",
     "lint": "eslint .",

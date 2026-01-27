@@ -1,9 +1,36 @@
-name: ci-test
-run-name: ${{github.actor}} is testing
-on: push
+name: CI
+run-name: Push code changes
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+    types:
+      - opened
+    branches:
+      - 'main'
+
 jobs:
-  test-github-actions:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "this is a test"
-      - run: echo "triggered by a ${{github.event_name}}"
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build all workspaces
+        run: |
+          npm run build:backend
+          npm run build:frontend
+
+      - name: Run all tests
+        run: |
+          npm run test:backend
+          npm run test:frontend
