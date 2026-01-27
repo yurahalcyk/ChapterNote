@@ -1,0 +1,9 @@
+name: ci-test
+run-name: ${{github.actor}} is testing
+on: push
+jobs:
+  test-github-actions:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "this is a test"
+      - run: echo "triggered by a ${{github.event_name}}"
