@@ -27,10 +27,8 @@ jobs:
 
       - name: Build all workspaces
         run: |
-          npm run build:backend
-          npm run build:frontend
+          npm run build:all
 
       - name: Run all tests
         run: |
-          npm run test:backend
-          npm run test:frontend
+          npm run test:all

@@ -12,9 +12,11 @@
     "dev:backend": "npm run dev --workspace=@chapternote/backend",
     "test:backend": "npm run test --workspace=@chapternote/backend",
     "test:frontend": "npm run test --workspace=@chapternote/frontend",
+    "test:all": "npm run test --workspace=@chapternote/backend && npm run test --workspace=@chapternote/frontend",
     "build:frontend": "npm run build --workspace=@chapternote/frontend",
     "build:backend": "npm run build --workspace=@chapternote/backend",
     "build": "tsc -b",
+    "build:all": "tsc -b && npm run build --workspace=@chapternote/backend && npm run build --workspace=@chapternote/frontend",
     "clean": "tsc -b --clean",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
