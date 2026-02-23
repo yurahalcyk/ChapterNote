@@ -1,6 +1,7 @@
 import { Button, Card, Container, Form } from 'react-bootstrap';
 import { useAddBookMutation } from './api-service/book-api';
 import { useReducer } from 'react';
+import styles from './addBook.module.scss';
 
 type FormState = {
   title: string;
@@ -36,7 +37,9 @@ export const AddBook = () => {
       <Card className="d-flex justify-content-center p-4">
         <Form className="d-flex flex-column" onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
-            <Form.Label>Title</Form.Label>
+            <Form.Label>
+              Title <span className={styles.req}>*</span>
+            </Form.Label>
             <Form.Control
               type="text"
               placeholder="Enter Book Title"
@@ -47,7 +50,9 @@ export const AddBook = () => {
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Author</Form.Label>
+            <Form.Label>
+              Author <span className={styles.req}>*</span>
+            </Form.Label>
             <Form.Control
               type="text"
               placeholder="Enter Book Author"
@@ -58,7 +63,9 @@ export const AddBook = () => {
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Chapters</Form.Label>
+            <Form.Label>
+              Chapters <span className={styles.req}>*</span>
+            </Form.Label>
             <Form.Control
               type="number"
               placeholder="Enter Number of Chapters"
