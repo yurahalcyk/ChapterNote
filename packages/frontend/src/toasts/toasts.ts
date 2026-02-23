@@ -25,6 +25,14 @@ const toasts = {
       });
     },
   },
+  books: {
+    successfulAddBook: (bookTitle: string) => {
+      toast(`Added ${bookTitle} to your library!`, { type: 'success' });
+    },
+    failedAddBook: (errorMsg: string) => {
+      toast(`Failed to add your book. Error: ${errorMsg}`, { type: 'error' });
+    },
+  },
   logout: {
     logout: () => toast('Hope to see you again soon!', { type: 'info' }),
   },

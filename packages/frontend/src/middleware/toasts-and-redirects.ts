@@ -7,6 +7,7 @@ import {
   addTokenToLocalStorage,
   loginSlice,
 } from '../features/auth/login/slices/login-slice';
+import { bookAPI } from '../features/books/api-service/book-api';
 
 export const toastAndRedirectListeners = createListenerMiddleware();
 
@@ -46,6 +47,24 @@ toastAndRedirectListeners.startListening({
   effect: async action => {
     const error = action.payload;
     toasts.register.failedRegister(extractApiError(error));
+  },
+});
+
+// add book success
+toastAndRedirectListeners.startListening({
+  matcher: bookAPI.endpoints.addBook.matchFulfilled,
+  effect: async (action, listenerApi) => {
+    toasts.books.successfulAddBook(action.meta.arg.originalArgs.title);
+    listenerApi.dispatch(navigateTo('/dashboard'));
+  },
+});
+
+// add book failure
+toastAndRedirectListeners.startListening({
+  matcher: bookAPI.endpoints.addBook.matchRejected,
+  effect: async action => {
+    const error = action.payload;
+    toasts.books.failedAddBook(extractApiError(error));
   },
 });
 
