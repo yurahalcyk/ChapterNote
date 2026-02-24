@@ -10,14 +10,14 @@ type FormState = {
   pages?: number;
 };
 
-export const AddBook = () => {
-  const initialState: FormState = {
-    title: '',
-    author: '',
-    chapters: 0,
-    pages: undefined,
-  };
+const initialState: FormState = {
+  title: '',
+  author: '',
+  chapters: 0,
+  pages: undefined,
+};
 
+export const AddBook = () => {
   // merge reducer pattern (similar to this.setState instead of using action types)
   const [state, updateState] = useReducer(
     (state, updates) => ({ ...state, ...updates }),
@@ -47,6 +47,7 @@ export const AddBook = () => {
                 updateState({ title: e.target.value });
               }}
               required
+              data-testid="title-input"
             />
           </Form.Group>
           <Form.Group className="mb-3">
