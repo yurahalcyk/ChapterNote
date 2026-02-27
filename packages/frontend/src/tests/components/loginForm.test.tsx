@@ -1,10 +1,10 @@
 import { describe, expect, it } from '@jest/globals';
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { LoginForm } from '../../features/auth/login/components/login-form';
-import { renderComponentWithProviderAndToast } from '../utils';
+import { renderComponentWithProviderAndToast, setupUser } from '../utils';
 import { server } from '../mocks/node';
 import { http, HttpResponse } from 'msw';
-import { LOGIN_URL } from '../mocks/handlers/types/handler-routes';
+import { LOGIN_URL } from '../mocks/handlers/routes/handler-routes';
 
 // Asserting toasts and navigation intent
 
@@ -13,6 +13,7 @@ const password: string = '123';
 
 describe('Login Form Component', () => {
   it('error toast appears if invalid credentials entered', async () => {
+    const user = setupUser();
     server.use(
       http.post(`${LOGIN_URL}`, async () => {
         return HttpResponse.json(
@@ -26,13 +27,9 @@ describe('Login Form Component', () => {
     );
     renderComponentWithProviderAndToast(<LoginForm />, ['/login']);
 
-    fireEvent.change(screen.getByTestId('username-input'), {
-      target: { value: username },
-    });
-    fireEvent.change(screen.getByTestId('password-input'), {
-      target: { value: password },
-    });
-    fireEvent.click(screen.getByTestId('login-btn'));
+    await user.type(screen.getByTestId('username-input'), username);
+    await user.type(screen.getByTestId('password-input'), password);
+    await user.click(screen.getByTestId('login-btn'));
 
     await waitFor(() => {
       expect(
@@ -42,17 +39,15 @@ describe('Login Form Component', () => {
   });
 
   it('successful toast appears and expected redirect when valid credentials entered', async () => {
+    const user = setupUser();
+
     const { store } = renderComponentWithProviderAndToast(<LoginForm />, [
       '/login',
     ]);
 
-    fireEvent.change(screen.getByTestId('username-input'), {
-      target: { value: username },
-    });
-    fireEvent.change(screen.getByTestId('password-input'), {
-      target: { value: password },
-    });
-    fireEvent.click(screen.getByTestId('login-btn'));
+    await user.type(screen.getByTestId('username-input'), username);
+    await user.type(screen.getByTestId('password-input'), password);
+    await user.click(screen.getByTestId('login-btn'));
 
     await waitFor(() => {
       expect(

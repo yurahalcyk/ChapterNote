@@ -61,6 +61,7 @@ export const AddBook = () => {
                 updateState({ author: e.target.value });
               }}
               required
+              data-testid="author-input"
             />
           </Form.Group>
           <Form.Group className="mb-3">
@@ -74,6 +75,7 @@ export const AddBook = () => {
                 updateState({ chapters: e.target.valueAsNumber });
               }}
               required
+              data-testid="chapter-input"
             />
           </Form.Group>
           <Form.Group className="mb-3">
@@ -84,9 +86,10 @@ export const AddBook = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 updateState({ pages: e.target.valueAsNumber });
               }}
+              data-testid="page-input"
             />
           </Form.Group>
-          <Button type="submit" disabled={isLoading}>
+          <Button type="submit" disabled={isLoading} data-testid="submit-btn">
             Add Book
           </Button>
         </Form>
