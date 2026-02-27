@@ -1,6 +1,7 @@
 import { Button, Card, Container, Form } from 'react-bootstrap';
 import { useAddBookMutation } from './api-service/book-api';
 import { useReducer } from 'react';
+import styles from './addBook.module.scss';
 
 type FormState = {
   title: string;
@@ -9,14 +10,14 @@ type FormState = {
   pages?: number;
 };
 
-export const AddBook = () => {
-  const initialState: FormState = {
-    title: '',
-    author: '',
-    chapters: 0,
-    pages: undefined,
-  };
+const initialState: FormState = {
+  title: '',
+  author: '',
+  chapters: 0,
+  pages: undefined,
+};
 
+export const AddBook = () => {
   // merge reducer pattern (similar to this.setState instead of using action types)
   const [state, updateState] = useReducer(
     (state, updates) => ({ ...state, ...updates }),
@@ -36,7 +37,9 @@ export const AddBook = () => {
       <Card className="d-flex justify-content-center p-4">
         <Form className="d-flex flex-column" onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
-            <Form.Label>Title</Form.Label>
+            <Form.Label>
+              Title <span className={styles.req}>*</span>
+            </Form.Label>
             <Form.Control
               type="text"
               placeholder="Enter Book Title"
@@ -44,10 +47,13 @@ export const AddBook = () => {
                 updateState({ title: e.target.value });
               }}
               required
+              data-testid="title-input"
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Author</Form.Label>
+            <Form.Label>
+              Author <span className={styles.req}>*</span>
+            </Form.Label>
             <Form.Control
               type="text"
               placeholder="Enter Book Author"
@@ -55,10 +61,13 @@ export const AddBook = () => {
                 updateState({ author: e.target.value });
               }}
               required
+              data-testid="author-input"
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Chapters</Form.Label>
+            <Form.Label>
+              Chapters <span className={styles.req}>*</span>
+            </Form.Label>
             <Form.Control
               type="number"
               placeholder="Enter Number of Chapters"
@@ -66,6 +75,7 @@ export const AddBook = () => {
                 updateState({ chapters: e.target.valueAsNumber });
               }}
               required
+              data-testid="chapter-input"
             />
           </Form.Group>
           <Form.Group className="mb-3">
@@ -76,9 +86,10 @@ export const AddBook = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 updateState({ pages: e.target.valueAsNumber });
               }}
+              data-testid="page-input"
             />
           </Form.Group>
-          <Button type="submit" disabled={isLoading}>
+          <Button type="submit" disabled={isLoading} data-testid="submit-btn">
             Add Book
           </Button>
         </Form>

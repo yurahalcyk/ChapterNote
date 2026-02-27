@@ -5,6 +5,7 @@ const config = {
   testMatch: ['<rootDir>/src/tests/*/*.test.tsx'],
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
   moduleNameMapper: {
+    '\\.(css|scss|sass)$': 'identity-obj-proxy',
     '^(\\.{1,2}/.*)\\.jsx?$': '$1',
   },
   transform: {

@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router';
 import { store } from '../app/store';
 import { ToastContainer } from 'react-toastify';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 
 export const renderComponentWithProviderAndToast = (
   ui: React.ReactElement,
@@ -21,4 +22,9 @@ export const renderComponentWithProviderAndToast = (
     store,
     ...renderFn,
   };
+};
+
+export const setupUser = (): UserEvent => {
+  const user = userEvent.setup();
+  return user;
 };
