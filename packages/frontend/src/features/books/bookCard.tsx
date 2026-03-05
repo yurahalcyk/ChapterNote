@@ -1,6 +1,9 @@
 import { Card } from 'react-bootstrap';
 import { Book } from './types';
 
+// Book Card
+// - component to display book information within a card
+
 type BookCardProps = {
   book: Book;
 };

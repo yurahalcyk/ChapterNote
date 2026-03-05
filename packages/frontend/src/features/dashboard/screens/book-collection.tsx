@@ -3,6 +3,10 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { Book } from '../../books/types';
 
+// Book Collection
+// - component to render collection of books within a carousel component
+// - for each object in the book array, create a bookCard component to render book details
+
 type BookCollectionProps = {
   bookArray: Book[];
 };
