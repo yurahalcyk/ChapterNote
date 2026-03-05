@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../../../app/store';
-import { BookDetails, GetBooksResponse } from './types';
+import { AddBookRequest, GetBooksResponse } from '../types';
 
 const BASE_URL = `http://localhost:3000/api/books`;
 
@@ -26,7 +26,7 @@ export const bookAPI = createApi({
       providesTags: ['Book'],
     }),
     addBook: builder.mutation({
-      query: (bookDetails: BookDetails) => ({
+      query: (bookDetails: AddBookRequest) => ({
         url: '/create',
         method: 'POST',
         body: bookDetails,

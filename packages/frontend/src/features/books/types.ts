@@ -1,4 +1,4 @@
-type Book = {
+export type Book = {
   id: string;
   title: string;
   author: string;
@@ -9,7 +9,7 @@ type Book = {
   userId: number;
 };
 
-export type BookDetails = {
+export type AddBookRequest = {
   title: string;
   author: string;
   chapters: number;
