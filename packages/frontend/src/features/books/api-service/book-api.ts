@@ -1,14 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../../../app/store';
+import { AddBookRequest, GetBooksResponse } from '../types';
 
 const BASE_URL = `http://localhost:3000/api/books`;
-
-type BookDetails = {
-  title: string;
-  author: string;
-  chapters: number;
-  pages?: number;
-};
 
 export const bookAPI = createApi({
   reducerPath: 'bookApi',
@@ -25,15 +19,21 @@ export const bookAPI = createApi({
       }
     },
   }),
+  tagTypes: ['Book'],
   endpoints: builder => ({
+    getBooks: builder.query<GetBooksResponse, void>({
+      query: () => ({ url: '/getAllBooks' }),
+      providesTags: ['Book'],
+    }),
     addBook: builder.mutation({
-      query: (bookDetails: BookDetails) => ({
+      query: (bookDetails: AddBookRequest) => ({
         url: '/create',
         method: 'POST',
         body: bookDetails,
       }),
+      invalidatesTags: ['Book'],
     }),
   }),
 });
 
-export const { useAddBookMutation } = bookAPI;
+export const { useGetBooksQuery, useAddBookMutation } = bookAPI;
