@@ -1,4 +1,4 @@
-import { BookDetails, UpdatedBookDetails } from '../dto/book-dto.ts';
+import { BookDetails } from '../dto/book-dto.ts';
 import { ValidationError } from '../errors/custom-errors.ts';
 import { prisma } from '../lib/prisma.ts';
 
@@ -41,6 +41,14 @@ const bookService = {
     return books;
   },
 
+  getBookById: async (bookId: string) => {
+    const book = await prisma.book.findUnique({
+      where: { id: bookId },
+    });
+
+    return book;
+  },
+
   deleteBook: async (bookId: string) => {
     await prisma.book.delete({
       where: {
@@ -49,12 +57,10 @@ const bookService = {
     });
   },
 
-  updateBook: async (updatedBookDetails: UpdatedBookDetails) => {
-    const { id: bookId, ...data } = updatedBookDetails;
-
+  updateBook: async (bookId: string, bookDetails: BookDetails) => {
     const book = await prisma.book.update({
       where: { id: bookId },
-      data: data,
+      data: bookDetails,
     });
 
     return book;

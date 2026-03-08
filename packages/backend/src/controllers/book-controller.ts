@@ -1,7 +1,7 @@
 import { StatusCode } from 'status-code-enum';
 import { Response, Request } from 'express';
 import bookService from '../services/book-service.ts';
-import { BookDetails, UpdatedBookDetails } from '../dto/book-dto.ts';
+import { BookDetails } from '../dto/book-dto.ts';
 import { asyncHandler } from '../utils/asyncHandler.ts';
 
 export const createBookController = asyncHandler(
@@ -34,11 +34,28 @@ export const getAllBooksController = asyncHandler(
 
 export const editBookController = asyncHandler(
   async (req: Request, res: Response) => {
-    const bookDetails = req.body as UpdatedBookDetails;
-    const book = await bookService.updateBook(bookDetails);
+    const { bookId } = req.params;
+    const bookDetails = req.body as BookDetails;
+    const book = await bookService.updateBook(bookId, bookDetails);
     return res
       .status(StatusCode.SuccessOK)
       .json({ message: 'Update Successful', book });
+  },
+);
+
+export const getBookController = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { bookId } = req.params;
+    const book = await bookService.getBookById(bookId);
+
+    if (!book) {
+      return res.status(StatusCode.ClientErrorNotFound).json({
+        message: 'Book not found.',
+      });
+    }
+    return res.status(StatusCode.SuccessOK).json({
+      book,
+    });
   },
 );
 
