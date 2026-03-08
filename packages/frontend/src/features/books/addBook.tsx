@@ -1,7 +1,7 @@
 import { Button, Card, Container, Form } from 'react-bootstrap';
 import { useAddBookMutation } from './api-service/book-api';
 import { useReducer } from 'react';
-import styles from './addBook.module.scss';
+import styles from './book.module.scss';
 
 type FormState = {
   title: string;
