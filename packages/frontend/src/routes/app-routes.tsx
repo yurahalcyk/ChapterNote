@@ -6,8 +6,9 @@ import { Dashboard } from '../features/dashboard/screens/dashboard';
 import { NavigationListener } from '../middleware/utils/redirection-util/navigation-listener';
 import { ProtectedRoute } from './protected-routes';
 import { NavigationBar } from '../features/navbar/navbar';
-import { AddBook } from '../features/books/addBook';
+import { AddBook } from '../features/books/screens/add-book';
 import { AddNote } from '../features/notes/addNote';
+import { EditBook } from '../features/books/screens/edit-book';
 
 export const AppRoutes = () => {
   return (
@@ -24,6 +25,10 @@ export const AppRoutes = () => {
           <Route element={<NavigationBar />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/add-book" element={<AddBook />} />
+            <Route
+              path="/edit-book/:bookTitle/:bookId"
+              element={<EditBook />}
+            />
             <Route path="/notes" element={<AddNote />} />
           </Route>
         </Route>
