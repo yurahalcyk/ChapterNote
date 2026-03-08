@@ -40,6 +40,7 @@ export const BookCard = ({ book }: BookCardProps) => {
         )}
       </div>
       <Card.Footer className="text-center">Add Note</Card.Footer>
+      <Card.Footer className="text-center">Edit Book</Card.Footer>
     </Card>
   );
 };

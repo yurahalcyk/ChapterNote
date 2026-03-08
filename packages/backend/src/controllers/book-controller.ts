@@ -1,7 +1,7 @@
 import { StatusCode } from 'status-code-enum';
 import { Response, Request } from 'express';
 import bookService from '../services/book-service.ts';
-import { BookDetails } from '../dto/book-dto.ts';
+import { BookDetails, UpdatedBookDetails } from '../dto/book-dto.ts';
 import { asyncHandler } from '../utils/asyncHandler.ts';
 
 export const createBookController = asyncHandler(
@@ -29,6 +29,16 @@ export const getAllBooksController = asyncHandler(
       count: books.length,
       books,
     });
+  },
+);
+
+export const editBookController = asyncHandler(
+  async (req: Request, res: Response) => {
+    const bookDetails = req.body as UpdatedBookDetails;
+    const book = await bookService.updateBook(bookDetails);
+    return res
+      .status(StatusCode.SuccessOK)
+      .json({ message: 'Update Successful', book });
   },
 );
 

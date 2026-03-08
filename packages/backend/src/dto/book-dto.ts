@@ -4,3 +4,5 @@ export type BookDetails = {
   chapters: number;
   pages?: number;
 };
+
+export type UpdatedBookDetails = Partial<BookDetails> & { id: string };

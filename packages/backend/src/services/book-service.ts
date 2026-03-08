@@ -1,4 +1,4 @@
-import { BookDetails } from '../dto/book-dto.ts';
+import { BookDetails, UpdatedBookDetails } from '../dto/book-dto.ts';
 import { ValidationError } from '../errors/custom-errors.ts';
 import { prisma } from '../lib/prisma.ts';
 
@@ -48,7 +48,17 @@ const bookService = {
       },
     });
   },
-  updateBook: async () => {},
+
+  updateBook: async (updatedBookDetails: UpdatedBookDetails) => {
+    const { id: bookId, ...data } = updatedBookDetails;
+
+    const book = await prisma.book.update({
+      where: { id: bookId },
+      data: data,
+    });
+
+    return book;
+  },
 };
 
 export default bookService;
