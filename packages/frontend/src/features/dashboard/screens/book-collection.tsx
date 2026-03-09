@@ -1,7 +1,7 @@
-import { BookCard } from '../../books/bookCard';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { Book } from '../../books/types';
+import { BookCard } from '../../books/components/book-card';
 
 // Book Collection
 // - component to render collection of books within a carousel component

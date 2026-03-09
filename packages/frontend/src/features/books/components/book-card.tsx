@@ -1,5 +1,6 @@
 import { Card } from 'react-bootstrap';
-import { Book } from './types';
+import { Book } from '../types';
+import { Link } from 'react-router';
 
 // Book Card
 // - component to display book information within a card
@@ -16,8 +17,8 @@ const toTitleCase = (text: string) => {
 };
 
 export const BookCard = ({ book }: BookCardProps) => {
-  const hasUpdated: boolean =
-    book.createdAt.toString() !== book.updatedAt.toString();
+  // const hasUpdated: boolean =
+  //   book.createdAt.toString() !== book.updatedAt.toString();
 
   return (
     <Card style={{ width: '18rem' }}>
@@ -33,13 +34,16 @@ export const BookCard = ({ book }: BookCardProps) => {
         <Card.Subtitle className="mb-2">
           Created: {new Date(book.createdAt).toLocaleDateString()}
         </Card.Subtitle>
-        {hasUpdated && (
+        {/* {hasUpdated && (
           <Card.Subtitle className="mb-2">
             Updated: {new Date(book.updatedAt).toLocaleDateString()}
           </Card.Subtitle>
-        )}
+        )} */}
       </div>
       <Card.Footer className="text-center">Add Note</Card.Footer>
+      <Card.Footer className="text-center">
+        <Link to={`/edit-book/${book.title}/${book.id}`}>Edit Book</Link>
+      </Card.Footer>
     </Card>
   );
 };

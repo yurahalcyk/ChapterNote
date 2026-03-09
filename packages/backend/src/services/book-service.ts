@@ -41,6 +41,14 @@ const bookService = {
     return books;
   },
 
+  getBookById: async (bookId: string) => {
+    const book = await prisma.book.findUnique({
+      where: { id: bookId },
+    });
+
+    return book;
+  },
+
   deleteBook: async (bookId: string) => {
     await prisma.book.delete({
       where: {
@@ -48,7 +56,15 @@ const bookService = {
       },
     });
   },
-  updateBook: async () => {},
+
+  updateBook: async (bookId: string, bookDetails: BookDetails) => {
+    const book = await prisma.book.update({
+      where: { id: bookId },
+      data: bookDetails,
+    });
+
+    return book;
+  },
 };
 
 export default bookService;

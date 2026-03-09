@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { screen, waitFor } from '@testing-library/react';
 import { renderComponentWithProviderAndToast, setupUser } from '../utils';
-import { AddBook } from '../../features/books/addBook';
+import { AddBook } from '../../features/books/screens/add-book';
 
 const bookTitle = 'test-book';
 const bookAuthor = 'test-author';

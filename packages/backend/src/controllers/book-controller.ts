@@ -32,6 +32,33 @@ export const getAllBooksController = asyncHandler(
   },
 );
 
+export const editBookController = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { bookId } = req.params;
+    const bookDetails = req.body as BookDetails;
+    const book = await bookService.updateBook(bookId, bookDetails);
+    return res
+      .status(StatusCode.SuccessOK)
+      .json({ message: 'Update Successful', book });
+  },
+);
+
+export const getBookController = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { bookId } = req.params;
+    const book = await bookService.getBookById(bookId);
+
+    if (!book) {
+      return res.status(StatusCode.ClientErrorNotFound).json({
+        message: 'Book not found.',
+      });
+    }
+    return res.status(StatusCode.SuccessOK).json({
+      book,
+    });
+  },
+);
+
 export const deleteBookController = asyncHandler(
   async (_req: Request, _res: Response) => {
     // will get book id from req.params

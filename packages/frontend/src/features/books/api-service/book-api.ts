@@ -22,12 +22,12 @@ export const bookAPI = createApi({
   tagTypes: ['Book'],
   endpoints: builder => ({
     getBooks: builder.query<GetBooksResponse, void>({
-      query: () => ({ url: '/getAllBooks' }),
+      query: () => ({ url: '/' }),
       providesTags: ['Book'],
     }),
     addBook: builder.mutation({
       query: (bookDetails: AddBookRequest) => ({
-        url: '/create',
+        url: '/',
         method: 'POST',
         body: bookDetails,
       }),
