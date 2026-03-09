@@ -10,8 +10,8 @@ import { asyncHandler } from '../utils/asyncHandler.ts';
 
 const bookRouter = express.Router();
 
-bookRouter.post('/create', asyncHandler(protect), createBookController);
-bookRouter.get('/all-books', asyncHandler(protect), getAllBooksController);
+bookRouter.post('/', asyncHandler(protect), createBookController);
+bookRouter.get('/', asyncHandler(protect), getAllBooksController);
 bookRouter.put('/:bookId', asyncHandler(protect), editBookController);
 bookRouter.get('/:bookId', asyncHandler(protect), getBookController);
 
